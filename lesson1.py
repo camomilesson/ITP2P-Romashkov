@@ -1,5 +1,6 @@
 n = int(input())
 
+# Error handling as per Vladimir's request
 if n < 1:
     raise ValueError('Give me a normal number, Vladimir!')
 
