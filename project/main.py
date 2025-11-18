@@ -21,7 +21,7 @@ player_size = (50, 50)
 player_rect = pygame.Rect(600, 100, *player_size)
 player_speed = 5
 player_vel_y = 0
-gravity = 0.2  # Acceleration due to gravity
+gravity = 0.25  # Acceleration due to gravity
 max_fall_speed = 15
 
 # --- Terrain / Obstacles ---
@@ -53,6 +53,8 @@ while running:
         player_rect.x -= player_speed
     if keys[pygame.K_d]:
         player_rect.x += player_speed
+    if keys[pygame.K_SPACE] and on_ground:
+        player_vel_y = -10
 
     # --- Gravity ---
     # Check if player is standing on any terrain
