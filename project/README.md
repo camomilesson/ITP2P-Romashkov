@@ -2,10 +2,6 @@
 
 **Author:** Andrei Romashkov  
 
-**Space Harbour**  
-
-**Title:** Space Harbour  
-
 ---
 
 ## Description
