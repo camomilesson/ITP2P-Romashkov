@@ -57,10 +57,9 @@ def main():
 
     # --- Background ---
     background_img = pygame.image.load("background.png").convert_alpha()
-    bg_width = SCREEN_WIDTH
-    scale_factor = bg_width / background_img.get_width()
+    scale_factor = SCREEN_WIDTH / background_img.get_width()
     bg_height = int(background_img.get_height() * scale_factor)
-    background_img = pygame.transform.scale(background_img, (bg_width, bg_height))
+    background_img = pygame.transform.scale(background_img, (SCREEN_WIDTH, bg_height))
     bg_y = -1200          # initial vertical position
     bg_speed = 0.3    # very slow scroll
 
@@ -152,11 +151,11 @@ def main():
                 if event.type == SPAWN_RECT:
                     width = random.randint(terrain_min_size, terrain_min_size * 4)
                     x = random.randint(- width // 2, SCREEN_WIDTH - width // 2)
-                    y = 0
+                    y = -50
                     block = Block(x, y, width, 50)
                     all_sprites.add(block)
                     blocks_group.add(block)
-                    score += max(width // 100 * 5, 5)
+                    score += max((600 - width) // 100 * 5, 5)
 
                 if event.type == SHRINK_EVENT:
                     terrain_min_size = max(50, terrain_min_size - 30)
@@ -227,15 +226,16 @@ def main():
                 if block.rect.top > 2000:
                     block.kill()
 
-        # --- Drawing ---
+        # --- Drawing background---
         if bg_y < 0:
             bg_y += bg_speed
 
-        screen.blit(background_img, (0, bg_y))  # negative because we move image up to scroll down
+        screen.blit(background_img, (0, bg_y))
 
+        # --- Drawing blocks and player ---
         all_sprites.draw(screen)
 
-        # Draw score
+        # --- Drawing score ---
         score_text = score_font.render(f"Score: {score}", True, GOLD)
         text_rect = score_text.get_rect(topleft=(20, 10))
         padding_x, padding_y = 10, 5
@@ -245,8 +245,8 @@ def main():
             text_rect.width + 2*padding_x,
             text_rect.height + 2*padding_y
         )
-        pygame.draw.rect(screen, BLACK, box_rect)  # background box
-        pygame.draw.rect(screen, WHITE, box_rect, 2)  # optional border (2 px)
+        pygame.draw.rect(screen, BLACK, box_rect)
+        pygame.draw.rect(screen, WHITE, box_rect, 2)
 
         screen.blit(score_text, text_rect)
 
