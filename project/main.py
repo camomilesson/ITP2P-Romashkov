@@ -13,7 +13,7 @@ TOP_N = 5
 # --- Colors ---
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-GREY = (128, 128, 128)
+GREY = (64, 64, 64)
 RED = (255, 0, 0)
 GREEN = (0, 200, 0)
 GOLD = (255, 215, 0)
@@ -245,7 +245,7 @@ def main():
             text_rect.width + 2*padding_x,
             text_rect.height + 2*padding_y
         )
-        pygame.draw.rect(screen, BLACK, box_rect)
+        pygame.draw.rect(screen, GREY, box_rect)
         pygame.draw.rect(screen, WHITE, box_rect, 2)
 
         screen.blit(score_text, text_rect)
