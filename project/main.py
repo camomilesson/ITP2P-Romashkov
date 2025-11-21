@@ -245,6 +245,7 @@ def main():
             text_rect.width + 2*padding_x,
             text_rect.height + 2*padding_y
         )
+        
         pygame.draw.rect(screen, GREY, box_rect)
         pygame.draw.rect(screen, WHITE, box_rect, 2)
 
