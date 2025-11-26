@@ -1,0 +1,19 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments (even if you're not using one)
+venv/
+env/
+*.env
+
+# Pygame generated / temporary files
+*.py~ 
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Highscore file
+hiscores.txt
