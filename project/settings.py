@@ -1,0 +1,23 @@
+# --- Screen ---
+SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 896
+FPS = 60
+
+# --- Colors ---
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREY = (64, 64, 64)
+RED = (255, 0, 0)
+GREEN = (0, 155, 72)
+GOLD = (255, 215, 0)
+
+# --- Files ---
+HISCORE_FILE = "hiscores.txt"
+TOP_N = 5
+
+# --- Game ---
+PLAYER_START_X, PLAYER_START_Y = 600, 0
+PLAYER_SPEED = 10
+GRAVITY = 0.226
+MAX_FALL_SPEED = 15
+BLOCK_VEL_Y = 2
+TERRAIN_MIN_SIZE = 150
