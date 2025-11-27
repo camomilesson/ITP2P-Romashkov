@@ -15,18 +15,18 @@ def main():
     clock = pygame.time.Clock()
 
     # --- Fonts ---
-    gameover_font = pygame.font.SysFont("Apple Chancery", 80)
-    button_font = pygame.font.SysFont("Apple Chancery", 50)
-    score_font = pygame.font.SysFont("Apple Chancery", 40)
-    hiscore_font = pygame.font.SysFont("Apple Chancery", 30)
+    gameover_font = pygame.font.SysFont("Tahoma", 80)
+    button_font = pygame.font.SysFont("Tahoma", 45)
+    score_font = pygame.font.SysFont("Tahoma", 40)
+    hiscore_font = pygame.font.SysFont("Tahoma", 30)
 
     # --- Background ---
     background_img = pygame.image.load("sprites/background.png").convert_alpha()
     scale_factor = SCREEN_WIDTH / background_img.get_width()
     bg_height = int(background_img.get_height() * scale_factor)
     background_img = pygame.transform.scale(background_img, (SCREEN_WIDTH, bg_height))
-    bg_y = -600
-    bg_speed = 0.3
+    bg_y = -1000
+    bg_speed = 0.2
 
     # --- Groups ---
     all_sprites = pygame.sprite.Group()
@@ -42,21 +42,21 @@ def main():
     blocks_group.add(first_block)
 
     # --- Game State ---
-    state = "GAME"
+    state = "MENU"
     on_ground = False
     score = 0
     player_name = ""
     name_saved = False
-    restart_button = pygame.Rect(490, 630, 300, 60)
+    restart_button = pygame.Rect(490, 630, 300, 70)
     terrain_min_size = TERRAIN_MIN_SIZE
     block_vel_x = 0
+    menu_rect = pygame.Rect(150, 150, 980, 596)
 
     SPAWN_RECT = pygame.USEREVENT + 1
     pygame.time.set_timer(SPAWN_RECT, 1200)
     INCREASE_DIFFICULTY = pygame.USEREVENT + 2
     pygame.time.set_timer(INCREASE_DIFFICULTY, 5000)
 
-    # --- Functions ---
     def reset_game():
         nonlocal player, all_sprites, blocks_group, terrain_min_size, block_vel_x, state, on_ground, score, bg_y
         all_sprites.empty()
@@ -76,7 +76,7 @@ def main():
         state = "GAME"
         on_ground = False
         score = 0
-        bg_y = -600
+        bg_y = -1000
 
     # --- Main Loop ---
     running = True
@@ -87,6 +87,12 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+            if state == "MENU":
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+                    state = "GAME"  # start the game
+                
             if state == "GAME":
                 if event.type == SPAWN_RECT:
                     width = random.randint(terrain_min_size, terrain_min_size * 4)
@@ -109,8 +115,7 @@ def main():
                         if event.key == pygame.K_BACKSPACE:
                             player_name = player_name[:-1]
                         elif event.key == pygame.K_RETURN:
-                            pattern = r"^[A-Za-z]{1,3}$"
-                            if re.match(pattern, player_name):
+                            if validate_name(player_name):
                                 player_name = player_name.upper()
                             else:
                                 player_name = "AAA"
@@ -185,6 +190,23 @@ def main():
         if bg_y < 0:
             bg_y += bg_speed
         screen.blit(background_img, (0, bg_y))
+
+        if state == "MENU":
+            pygame.draw.rect(screen, GREY, menu_rect)
+            pygame.draw.rect(screen, WHITE, menu_rect, 2)
+            title_font = pygame.font.SysFont("Tahoma", 125)
+            title_text = title_font.render("Castle Jumper", True, GOLD)
+            screen.blit(title_text, title_text.get_rect(center=(SCREEN_WIDTH//2, 370)))
+
+            # Controls
+            controls_font = pygame.font.SysFont("Tahoma", 30)
+            line1 = controls_font.render("Arrows to move", True, WHITE)
+            line2 = controls_font.render("Space to jump", True, WHITE)
+            line3 = controls_font.render("Any key to start", True, GREEN)
+            screen.blit(line1, line1.get_rect(center=(SCREEN_WIDTH//2, 540)))
+            screen.blit(line2, line2.get_rect(center=(SCREEN_WIDTH//2, 600)))
+            screen.blit(line3, line3.get_rect(center=(SCREEN_WIDTH//2, 660)))
+
         all_sprites.draw(screen)
 
         # Score HUD
@@ -203,7 +225,6 @@ def main():
 
         # Game Over Screen
         if state == "GAMEOVER":
-            menu_rect = pygame.Rect(150, 150, 980, 596)
             pygame.draw.rect(screen, GREY, menu_rect)
             pygame.draw.rect(screen, WHITE, menu_rect, 2)
 
@@ -216,14 +237,14 @@ def main():
             hiscores = load_hiscores('hiscores.txt')
             for i, (name, hs) in enumerate(hiscores):
                 text = hiscore_font.render(f"{i+1}. {name}: {hs}", True, GOLD)
-                screen.blit(text, text.get_rect(center=(SCREEN_WIDTH//2, 370 + i*30)))
+                screen.blit(text, text.get_rect(center=(SCREEN_WIDTH//2, 385 + i*30)))
 
             # Name input or congrats
             if not name_saved:
                 input_text = hiscore_font.render(f"Enter Name (1-3 chars): {player_name}", True, GOLD)
             else:
                 input_text = hiscore_font.render(f"Congratulations, {player_name}!", True, GOLD)
-            screen.blit(input_text, (SCREEN_WIDTH // 2 - input_text.get_width() // 2, 550))
+            screen.blit(input_text, (SCREEN_WIDTH // 2 - input_text.get_width() // 2, 570))
 
             # Restart button
             pygame.draw.rect(screen, GREEN, restart_button)

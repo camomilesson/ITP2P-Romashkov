@@ -1,7 +1,7 @@
 import os
 import re
 
-def load_hiscores(file_path, top_n=5):
+def load_hiscores(file_path, top_n=6):
     if not os.path.exists(file_path):
         return []
     hiscores = []
