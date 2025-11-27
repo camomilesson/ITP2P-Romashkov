@@ -67,9 +67,7 @@ It’s designed as both a fun interactive game and a learning project for Python
 - [x] Restart button after game over  
 - [x] Highscore saving with validated name input  
 - [x] Modular class structure (`player.py`, `block.py`)  
-- [ ] Optional: sound effects and background music  
-- [ ] Optional: polish graphics and animations  
-- [ ] Optional: add enemies or further level progression  
+- [x] Start menu with controls  
 
 ---
 
